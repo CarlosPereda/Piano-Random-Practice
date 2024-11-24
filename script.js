@@ -8,8 +8,8 @@ const exercise = {
 const validNotes = [];
 
 
-function pushValidNotes(list, scale, chosenNoteIndex) {
-  if (scale === "Minor") {
+function pushValidNotes(list, exercise, chosenNoteIndex) {
+  if (exercise === "Minor") {
     list.push(notes[chosenNoteIndex]);
     list.push(notes[(chosenNoteIndex + 2) % 12]);
     list.push(notes[(chosenNoteIndex + 3) % 12]);
@@ -17,7 +17,7 @@ function pushValidNotes(list, scale, chosenNoteIndex) {
     list.push(notes[(chosenNoteIndex + 7) % 12]);
     list.push(notes[(chosenNoteIndex + 8) % 12]);
     list.push(notes[(chosenNoteIndex + 10) % 12]);
-  } else if (scale === "Major") {
+  } else if (exercise === "Major") {
     list.push(notes[chosenNoteIndex]);
     list.push(notes[(chosenNoteIndex + 2) % 12]);
     list.push(notes[(chosenNoteIndex + 4) % 12]);
@@ -25,14 +25,14 @@ function pushValidNotes(list, scale, chosenNoteIndex) {
     list.push(notes[(chosenNoteIndex + 7) % 12]);
     list.push(notes[(chosenNoteIndex + 9) % 12]);
     list.push(notes[(chosenNoteIndex + 11) % 12]);
-  } else if (scale === "Chromatic") {
+  } else if (exercise === "Chromatic") {
     for (let i = 0; i < 12; i++) {
       list.push(notes[(chosenNoteIndex + i) % 12]);
     }
   }
 }
 
-function selectConditions(scale) {
+function selectConditions(exercise) {
     return [
       `Left hand starts in ${getRandomElement(validNotes)}`,
       `Right hand starts in ${getRandomElement(validNotes)}`,
@@ -41,16 +41,16 @@ function selectConditions(scale) {
 
 
 function randomize() {
-  const chosenScale = getRandomElement(Object.keys(scales));
+  const chosenExercise = getRandomElement(Object.keys(exercise));
   const chosenNoteIndex = Math.floor(Math.random() * notes.length);
   const chosenNote = notes[chosenNoteIndex];
   validNotes.length = 0;
 
-  pushValidNotes(validNotes, chosenScale, chosenNoteIndex);
-  const conditions = selectConditions(chosenScale);
+  pushValidNotes(validNotes, chosenExercise, chosenNoteIndex);
+  const conditions = selectConditions(chosenExercise);
 
-  const exercise_title = chosenScale === "Chromatic" ? `${chosenScale} Scale`
-                                                     : `${chosenNote} ${chosenScale} Scale`
+  const exercise_title = chosenExercise === "Chromatic" ? `${chosenExercise} Scale`
+                                                     : `${chosenNote} ${chosenExercise} Scale`
 
   document.getElementById("exercise-title").innerText = exercise_title;
   document.getElementById("conditions-list").innerHTML = conditions.map(c => `<li>${c}</li>`).join(""); 
